@@ -1,7 +1,7 @@
 package com.github.yulichang.extension.mapping.config;
 
-import com.github.yulichang.extension.mapping.mapper.MPJTableInfoHelper;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
+import com.github.yulichang.extension.mapping.mapper.MPJTableInfoHelper;
 import com.github.yulichang.toolkit.MPJTableMapperHelper;
 
 /**
@@ -13,7 +13,7 @@ import com.github.yulichang.toolkit.MPJTableMapperHelper;
 public class MappingConfig {
 
     public MappingConfig() {
-        TableInfoHelper.getTableInfos().forEach(i ->
-                MPJTableInfoHelper.initTableInfo(i.getEntityType(), MPJTableMapperHelper.getMapper(i.getEntityType())));
+        TableInfoHelper.getTableInfos().stream().filter(tableInfo -> !tableInfo.getEntityType().isInterface())// 过滤接口
+                .forEach(i -> MPJTableInfoHelper.initTableInfo(i.getEntityType(), MPJTableMapperHelper.getMapper(i.getEntityType())));
     }
 }
